@@ -1,0 +1,56 @@
+@page
+@model WebApplication4.Pages.UsersModel
+
+<h1>User List</h1>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+
+<form method="post" asp-page="UsersModel">
+    <button type="submit" name="deleteUser" class="btn btn-danger">Delete</button>
+    <button type="submit" name="blockUser" class="btn btn-warning">Block User</button>
+    <button type="submit" name="unblockUser" class="btn btn-success">Unblock User</button>
+    
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="selectAllCheckBox" />
+            </th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Registration date</th>
+            <th>Last Login</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Model.users.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="selectedUserIds" value="@Model.users[i].Id" />
+                </td>
+                <td>@Model.users[i].Id<input type="hidden" asp-for="users[i].Id"></td>
+                <td>@Model.users[i].Name<input type="hidden" asp-for="users[i].Name"></td>
+                <td>@Model.users[i].Email<input type="hidden" asp-for="users[i].Email"></td>
+                <td>@Model.users[i].CreatedAt?.ToString("yyyy-MM-dd HH:mm:ss")<input type="hidden" asp-for="users[i].CreatedAt"></td>
+                <td>@Model.users[i].LastLogin?.ToString("yyyy-MM-dd HH:mm:ss")<input type="hidden" asp-for="users[i].LastLogin"></td>
+                <td>@Model.users[i].Status<input type="hidden" asp-for="users[i].Status"></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</form>
+<script>
+    $(document).ready(function () {
+        $("#selectAllCheckBox").click(function () {
+            var isChecked = $(this).is(":checked");
+            
+            $("input[name='selectedUserIds']").prop("checked", isChecked);
+        });
+    });
+</script>
